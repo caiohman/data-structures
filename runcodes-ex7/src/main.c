@@ -10,12 +10,14 @@ int main(int argc, char const *argv[]) {
   for(int i = 0 ; i < number ; i++){
     int node, left, right;
     scanf("%d %d %d", &node , &left , &right);
-    _insert(bt , left);
-    _insert(bt , right);
-
-    printf("no %d: \n", node);
-    _delete(bt);
-
+    //printf("%d %d %d\n", node, left, right);
+    _insert(bt, node, i);
+    _insert(bt, left, i);
+    _insert(bt , right , i);
   }
+
+  _print_pre(bt);
+  _delete(bt);
+  printf("\n");
   return 0;
 }
