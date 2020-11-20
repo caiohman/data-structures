@@ -8,10 +8,9 @@ Bt *_create(){
   return bt;
 }
 
-void _insert_node(Node **node , int value, int id, Node *father, Bt *bt){
+void _insert_node(Node **node , int value, Node *father, Bt *bt){
     Node *aux = (Node *)calloc(1 , sizeof(Node));
     aux->elem = value;
-    aux->id = id;
     aux->pops = father;
 
     if(!(*node)){
@@ -19,8 +18,8 @@ void _insert_node(Node **node , int value, int id, Node *father, Bt *bt){
       return;
     }
 
-    if(!(*node)->left) return _insert_node(&(*node)->left, value, id, *node, bt);
-    if(!(*node)->right) return _insert_node(&(*node)->right, value, id, *node, bt);
+    if(!(*node)->left) return _insert_node(&(*node)->left, value, *node, bt);
+    if(!(*node)->right) return _insert_node(&(*node)->right, value, *node, bt);
 
     if(((*node)->left->elem == value ||
      (*node)->right->elem == value) &&
@@ -30,23 +29,22 @@ void _insert_node(Node **node , int value, int id, Node *father, Bt *bt){
       if((*node)->right->elem == -1) {
         if(bt->count < 2){
           bt->count++;
-          _insert_node(&(*node)->pops->right, value, id, (*node)->pops, bt);
+          _insert_node(&(*node)->pops->right, value, (*node)->pops, bt);
         }
         else{
           bt->count = 0;
-          _insert_node(&(*node)->pops->pops->right, value, id, (*node)->pops->pops, bt);
+          _insert_node(&(*node)->pops->pops->right, value, (*node)->pops->pops, bt);
         }
       }
-      else _insert_node(&(*node)->right, value, id, (*node)->right, bt);
+      else _insert_node(&(*node)->right, value, (*node)->right, bt);
     }
-    else _insert_node(&(*node)->left, value, id, (*node)->left, bt);
+    else _insert_node(&(*node)->left, value, (*node)->left, bt);
 }
 
-void _insert(Bt *bt , int value, int id){
+void _insert(Bt *bt , int value){
   assert(bt);
 
-  _insert_node(&bt->root , value, id, NULL, bt);
-  bt->size++;
+  _insert_node(&bt->root , value, NULL, bt);
 }
 
 void _delete_node(Node *node){
@@ -66,17 +64,14 @@ void _delete(Bt *bt){
 }
 
 int height_node(Node *node){
+  if(!node) return -1;
+
   int left_height = height_node(node->left);
   int right_height = height_node(node->right);
 
   if(left_height > right_height) return left_height + 1;
   else return right_height + 1;
-}
 
-void _height(Bt *bt){
-  assert(bt);
-
-  height_node(bt->root);
 }
 
 void print_node(Node *node){
@@ -85,7 +80,10 @@ void print_node(Node *node){
       printf("no %d: ", node->elem);
       printf("pai = ");
       (!node->pops)? printf("-1, ") : printf("%d, ", node->pops->elem);
-      printf("filhos = (%d,%d) ", node->left->elem , node->right->elem);
+      printf("altura = %d, " , height_node(node));
+      printf("grau = ");
+      (node->left->elem == -1) ? printf("0, ") : printf("2, ");
+      printf("filhos = (%d,%d), ", node->left->elem , node->right->elem);
       printf("tipo = ");
       if(!node->pops) printf("raiz");
       else if(node->right->elem == -1 && node->left->elem == -1) printf("folha");
