@@ -10,13 +10,9 @@ int main(int argc, char const *argv[]) {
   for(int i = 0 ; i < number ; i++){
     int node, left, right;
     scanf("%d %d %d", &node , &left , &right);
-    _insert(bt, node);
-    _insert(bt, left);
-    _insert(bt , right);
+    _insert(bt, node, left, right);
   }
-
   _print_pre(bt);
   _delete(bt);
-  printf("\n");
   return 0;
 }

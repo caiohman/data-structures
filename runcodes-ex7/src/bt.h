@@ -8,12 +8,26 @@ typedef struct node{
 }Node;
 
 typedef struct bt{
-  int count;
   Node *root;
 }Bt;
 
+
+/*@Description: create binary tree*/
+/*@param: none */
+/*@return: pointer to tree*/
 Bt *_create();
-void _insert(Bt * , int );
+/*@Description: insert element to tree*/
+/*@param: pointer to tree, node, left, right */
+/*@return: none*/
+void _insert(Bt * , int , int , int);
+/*@Description: delete entire tree*/
+/*@param: pointer to tree */
+/*@return: none*/
 void _delete(Bt *);
+/*@Description: print tree elements*/
+/*@param: pointer to tree */
+/*@return: none*/
 void _print_pre(Bt *);
+
+//void _print_pre_test(Bt *);
 #endif
